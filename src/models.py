@@ -23,7 +23,7 @@ class Worker(BaseModel):
     birth = Column(String)
     telephone = Column(String)
 
-    jobs = relationship("Job", back_populates="worker_job")
+    worker_job = relationship("JobWorker", backref="worker")
 
 class Category(BaseModel):
     __tablename__ = "categories"
@@ -37,6 +37,11 @@ class Job(BaseModel):
     enterprise = Column(String)
     finish_date = Column(DateTime)
     work_hours = Column(Integer)
-    worker_id = Column(Integer, ForeignKey("workers.id"))
 
-    worker_job = relationship("Worker", back_populates="jobs")
+    job_worker = relationship("JobWorker", backref="job")
+
+class JobWorker(BaseModel):
+    __tablename__ = "jobworkers"
+
+    job_id = Column(Integer, ForeignKey("jobs.id"))
+    worker_id = Column(Integer, ForeignKey("workers.id"))

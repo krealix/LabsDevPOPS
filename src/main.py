@@ -31,10 +31,10 @@ def read_worker_by_id(worker_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Такого работника нет")
     return db_worker
 
-@app.post("/workers/{worker_id}/jobs/", response_model=schemas.Job)
-def create_for_worker_job(worker_id: int, job: schemas.JobCreate, db: Session = Depends(get_db)):
+# @app.post("/workers/{worker_id}/jobs/", response_model=schemas.Job)
+# def create_for_worker_job(worker_id: int, job: schemas.JobCreate, db: Session = Depends(get_db)):
     
-    return crud.create_for_worker_job(db=db, job=job, worker_id=worker_id)
+#     return crud.create_for_worker_job(db=db, job=job, worker_id=worker_id)
 
 @app.post("/workers/", response_model=schemas.Worker)
 def create_worker(worker: schemas.WorkerCreate, db: Session = Depends(get_db)):
@@ -59,6 +59,14 @@ def get_jobs(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     jobs = crud.get_jobs(db, skip=skip, limit=limit)
     return jobs
 
+@app.post("/jobs/", response_model=schemas.Job)
+def create_job(job: schemas.JobCreate, db: Session = Depends(get_db)):
+
+    db_job = crud.get_job_by_enterprise(db, enterprise=job.enterprise)
+    if db_job:
+        raise HTTPException(status_code=400, detail="Такая работа уже существует")
+    return crud.create_job(db=db, job=job)
+
 
 
 @app.post("/categories/", response_model=schemas.Category)
@@ -80,3 +88,17 @@ def get_category_by_id(category_id: int, db: Session = Depends(get_db)):
     if db_category is None:
         raise HTTPException(status_code=404, detail="Такой категории нет")
     return db_category
+
+
+@app.post("/jobworker/{worker_id}/{job_id}/", response_model=schemas.JobWorker)
+def create_jobworker(worker_id: int, job_id: int, jobworker: schemas.JobWorkerCreate, db: Session = Depends(get_db)):
+    
+    return crud.create_jobworker(db=db, jobworker=jobworker, worker_id=worker_id, job_id=job_id)
+
+@app.get("/jobworkers/{jobworkers_id}", response_model=schemas.JobWorker)
+def get_jobworker_by_id(jobworker_id: int, db: Session = Depends(get_db)):
+
+    db_jobworker = crud.get_jobworker_id(db, jobworker_id=jobworker_id)
+    if db_jobworker is None:
+        raise HTTPException(status_code=404, detail="Такого нет")
+    return db_jobworker

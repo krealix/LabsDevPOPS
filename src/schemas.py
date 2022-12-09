@@ -16,6 +16,25 @@ class JobCreate(JobBase):
 class Job(JobBase):
 
     id: int
+
+    class Config:
+
+        orm_mode = True
+
+class JobWorkerBase(BaseModel):
+    
+    pass
+
+
+class JobWorkerCreate(JobWorkerBase):
+
+    pass
+
+
+class JobWorker(JobWorkerBase):
+
+    id: int
+    job_id: int
     worker_id: int
 
     class Config:
@@ -37,7 +56,7 @@ class WorkerCreate(WorkerBase):
 class Worker(WorkerBase):
 
     id: int
-    jobs: list[Job] = []
+    jobers: list[JobWorker] = []
 
     class Config:
 

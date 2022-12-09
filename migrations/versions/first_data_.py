@@ -1,7 +1,7 @@
 """empty message
 
 Revision ID: first_data
-Revises: cdd860b81a11
+Revises: 7c28dd75aea0
 Create Date: 2022-11-30 14:39:59.963580
 
 """
@@ -9,12 +9,12 @@ from alembic import op
 from sqlalchemy import orm
 from datetime import datetime
 
-from src.models import Worker, Category, Job
+from src.models import Worker, Category, Job, JobWorker
 
 
 # revision identifiers, used by Alembic.
 revision = 'first_data'
-down_revision = 'cdd860b81a11'
+down_revision = '7c28dd75aea0'
 branch_labels = None
 depends_on = None
 
@@ -38,16 +38,28 @@ def upgrade() -> None:
     session.add_all([firstcategory, secondcategory, thirdcategory])
     session.commit()
 
-    audit1 = Job(enterprise='Три толстяка', finish_date= datetime(2022, 4, 13), work_hours=5, worker_id=ivanov.id)
-    audit2 = Job(enterprise='Лимпопо', finish_date= datetime(2022, 4, 14), work_hours=3, worker_id=petrov.id)
-    audit3 = Job(enterprise='Моя прелесть', finish_date= datetime(2022, 4, 15), work_hours=4, worker_id=semenov.id)
-    audit4 = Job(enterprise='Сова', finish_date= datetime(2022, 5, 16), work_hours=6, worker_id=andreev.id)
-    audit5 = Job(enterprise='ЕмСам', finish_date= datetime(2022, 5, 17), work_hours=7, worker_id=ivanov.id)
-    audit6 = Job(enterprise='Скороед', finish_date= datetime(2022, 5, 18), work_hours=4, worker_id=semenov.id)
-    audit7 = Job(enterprise='У Иваныча', finish_date= datetime(2022, 5, 17), work_hours=2, worker_id=andreev.id)
-    audit8 = Job(enterprise='Федор Самохвалов', finish_date= datetime(2022, 5, 18), work_hours=8, worker_id=petrov.id)
+    audit1 = Job(enterprise='Три толстяка', finish_date= datetime(2022, 4, 13), work_hours=5)
+    audit2 = Job(enterprise='Лимпопо', finish_date= datetime(2022, 4, 14), work_hours=3)
+    audit3 = Job(enterprise='Моя прелесть', finish_date= datetime(2022, 4, 15), work_hours=4)
+    audit4 = Job(enterprise='Сова', finish_date= datetime(2022, 5, 16), work_hours=6)
+    audit5 = Job(enterprise='ЕмСам', finish_date= datetime(2022, 5, 17), work_hours=7)
+    audit6 = Job(enterprise='Скороед', finish_date= datetime(2022, 5, 18), work_hours=4)
+    audit7 = Job(enterprise='У Иваныча', finish_date= datetime(2022, 5, 17), work_hours=2)
+    audit8 = Job(enterprise='Федор Самохвалов', finish_date= datetime(2022, 5, 18), work_hours=8)
 
     session.add_all([audit1, audit2, audit3, audit4, audit5, audit6, audit7, audit8])
+    session.commit()
+
+    jobworker1 = JobWorker(job_id=1, worker_id=1)
+    jobworker2 = JobWorker(job_id=2, worker_id=2)
+    jobworker3 = JobWorker(job_id=3, worker_id=3)
+    jobworker4 = JobWorker(job_id=4, worker_id=4)
+    jobworker5 = JobWorker(job_id=5, worker_id=1)
+    jobworker6 = JobWorker(job_id=6, worker_id=3)
+    jobworker7 = JobWorker(job_id=7, worker_id=4)
+    jobworker8 = JobWorker(job_id=8, worker_id=2)
+
+    session.add_all([jobworker1, jobworker2, jobworker3, jobworker4, jobworker5, jobworker6, jobworker7, jobworker8])
     session.commit()
 
 
