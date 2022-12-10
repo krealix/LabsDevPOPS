@@ -1,7 +1,7 @@
 """empty message
 
 Revision ID: first_data
-Revises: 7c28dd75aea0
+Revises: ba66b1402c75
 Create Date: 2022-11-30 14:39:59.963580
 
 """
@@ -14,7 +14,7 @@ from src.models import Worker, Category, Job, JobWorker
 
 # revision identifiers, used by Alembic.
 revision = 'first_data'
-down_revision = '7c28dd75aea0'
+down_revision = 'ba66b1402c75'
 branch_labels = None
 depends_on = None
 
@@ -23,10 +23,10 @@ def upgrade() -> None:
     bind = op.get_bind()
     session = orm.Session(bind=bind)
 
-    ivanov = Worker(snp='Иванов Иван Иванович', num_passport=160504, birth= "28 февраля 1990 года", telephone="+79005555700")
-    petrov = Worker(snp='Петров Петр Петрович', num_passport=112032, birth= "24 июня 1980 года", telephone="+79123456798")
-    semenov = Worker(snp='Семенов Семен Семенович', num_passport=123456, birth= "3 сентября 1975 года", telephone="+79123456797")
-    andreev = Worker(snp='Андреев Андрей Андреевич', num_passport=234567, birth= "1 мая 1999 года", telephone="+79123456796")
+    ivanov = Worker(snp='Иванов Иван Иванович', num_passport=160504, birth= "28 февраля 1990 года", telephone="+79005555700",category_id=1)
+    petrov = Worker(snp='Петров Петр Петрович', num_passport=112032, birth= "24 июня 1980 года", telephone="+79123456798",category_id=2)
+    semenov = Worker(snp='Семенов Семен Семенович', num_passport=123456, birth= "3 сентября 1975 года", telephone="+79123456797",category_id=3)
+    andreev = Worker(snp='Андреев Андрей Андреевич', num_passport=234567, birth= "1 мая 1999 года", telephone="+79123456796", category_id=1)
 
     session.add_all([ivanov, petrov, semenov, andreev])
     session.flush()

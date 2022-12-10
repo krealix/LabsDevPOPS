@@ -24,12 +24,16 @@ class Worker(BaseModel):
     telephone = Column(String)
 
     worker_job = relationship("JobWorker", backref="worker")
+    category_id = Column(Integer, ForeignKey('categories.id'))
+
 
 class Category(BaseModel):
     __tablename__ = "categories"
 
     name = Column(String)
     work_on_hour = Column(Integer)
+
+    category_worker = relationship("Worker")
 
 class Job(BaseModel):
     __tablename__ = "jobs"

@@ -40,27 +40,6 @@ class JobWorker(JobWorkerBase):
     class Config:
         orm_mode = True
 
-class WorkerBase(BaseModel):
-
-    snp: str
-    num_passport: int 
-    birth: str
-    telephone: str
-    
-
-class WorkerCreate(WorkerBase):
-
-    pass
-
-
-class Worker(WorkerBase):
-
-    id: int
-    jobers: list[JobWorker] = []
-
-    class Config:
-
-        orm_mode = True
 
 
 class CategoryBase(BaseModel):
@@ -79,4 +58,27 @@ class Category(CategoryBase):
     id: int
 
     class Config:
+        orm_mode = True
+
+class WorkerBase(BaseModel):
+
+    snp: str
+    num_passport: int 
+    birth: str
+    telephone: str
+    
+
+class WorkerCreate(WorkerBase):
+
+    pass
+
+
+class Worker(WorkerBase):
+    
+    id: int
+    category_id: int
+    worker_job: list[JobWorker] = []
+
+    class Config:
+
         orm_mode = True
