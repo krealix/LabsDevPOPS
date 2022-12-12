@@ -12,7 +12,7 @@ class BaseModel(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    def __repr__(self):
+    def __repr__(self):  # pragma: no cover
         return f"<{type(self).__name__}(id=al{self.id})>"
 
 class Worker(BaseModel):
@@ -23,8 +23,8 @@ class Worker(BaseModel):
     birth = Column(String)
     telephone = Column(String)
 
-    worker_job = relationship("JobWorker", backref="worker")
     category_id = Column(Integer, ForeignKey('categories.id'))
+    worker_job = relationship("JobWorker", backref="worker")
 
 
 class Category(BaseModel):

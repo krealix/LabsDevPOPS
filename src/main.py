@@ -9,7 +9,7 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 
-def get_db():
+def get_db():  # pragma: no cover
 
     db = SessionLocal() # pragma: no cover
     try:# pragma: no cover
@@ -68,10 +68,12 @@ def create_job(job: schemas.JobCreate, db: Session = Depends(get_db)):
     return crud.create_job(db=db, job=job)
 
 
-
 @app.post("/categories/", response_model=schemas.Category)
 def create_category(category: schemas.CategoryCreate, db: Session = Depends(get_db)):
 
+    db_category = crud.get_category_by_name(db, category_name=category.name)
+    if db_category:
+        raise HTTPException(status_code=400, detail="Такая категория уже существует")
     return crud.create_category(db=db, category=category)
 
 @app.get("/categories/", response_model=list[schemas.Category])
@@ -90,15 +92,15 @@ def get_category_by_id(category_id: int, db: Session = Depends(get_db)):
     return db_category
 
 
-@app.post("/jobworker/{worker_id}/{job_id}/", response_model=schemas.JobWorker)
+@app.post("/jobworkers/{worker_id}/{job_id}/", response_model=schemas.JobWorker)
 def create_jobworker(worker_id: int, job_id: int, jobworker: schemas.JobWorkerCreate, db: Session = Depends(get_db)):
     
     return crud.create_jobworker(db=db, jobworker=jobworker, worker_id=worker_id, job_id=job_id)
 
 @app.get("/jobworkers/{jobworkers_id}", response_model=schemas.JobWorker)
-def get_jobworker_by_id(jobworker_id: int, db: Session = Depends(get_db)):
+def get_jobworker_by_id(jobworkers_id: int, db: Session = Depends(get_db)):
 
-    db_jobworker = crud.get_jobworker_id(db, jobworker_id=jobworker_id)
+    db_jobworker = crud.get_jobworker_id(db, jobworker_id=jobworkers_id)
     if db_jobworker is None:
         raise HTTPException(status_code=404, detail="Такого нет")
     return db_jobworker

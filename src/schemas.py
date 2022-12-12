@@ -70,13 +70,12 @@ class WorkerBase(BaseModel):
 
 class WorkerCreate(WorkerBase):
 
-    pass
+    category_id: int
 
 
 class Worker(WorkerBase):
     
     id: int
-    category_id: int
     worker_job: list[JobWorker] = []
 
     class Config:
