@@ -23,19 +23,19 @@ def upgrade() -> None:
     bind = op.get_bind()
     session = orm.Session(bind=bind)
 
+    firstcategory = Category(name='Первая категория', work_on_hour=500)
+    secondcategory = Category(name='Вторая категория', work_on_hour=1000)
+    thirdcategory = Category(name='Третья категория', work_on_hour=1500)
+
+    session.add_all([firstcategory, secondcategory, thirdcategory])
+    session.flush()
+
     ivanov = Worker(snp='Иванов Иван Иванович', num_passport=160504, birth= "28 февраля 1990 года", telephone="+79005555700",category_id=1)
     petrov = Worker(snp='Петров Петр Петрович', num_passport=112032, birth= "24 июня 1980 года", telephone="+79123456798",category_id=2)
     semenov = Worker(snp='Семенов Семен Семенович', num_passport=123456, birth= "3 сентября 1975 года", telephone="+79123456797",category_id=3)
     andreev = Worker(snp='Андреев Андрей Андреевич', num_passport=234567, birth= "1 мая 1999 года", telephone="+79123456796", category_id=1)
 
     session.add_all([ivanov, petrov, semenov, andreev])
-    session.flush()
-
-    firstcategory = Category(name='Первая категория', work_on_hour=500)
-    secondcategory = Category(name='Вторая категория', work_on_hour=1000)
-    thirdcategory = Category(name='Третья категория', work_on_hour=1500)
-
-    session.add_all([firstcategory, secondcategory, thirdcategory])
     session.commit()
 
     audit1 = Job(enterprise='Три толстяка', finish_date= datetime(2022, 4, 13), work_hours=5)
