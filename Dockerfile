@@ -1,7 +1,7 @@
 # Указываем базовый образ
 FROM python:3.10
 # Указываем автора данного образа
-LABEL maintainer="usmanovruslan322@gmail.com"
+LABEL maintainer="Suldin1337"
 # Указываем директорию /code в качестве рабочей.
 # Если такой директории нет, то она будет создана
 WORKDIR /code
