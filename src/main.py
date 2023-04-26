@@ -104,3 +104,7 @@ def get_jobworker_by_id(jobworkers_id: int, db: Session = Depends(get_db)):
     if db_jobworker is None:
         raise HTTPException(status_code=404, detail="Такого нет")
     return db_jobworker
+
+@app.get("/version")
+def get_app_version():
+    return {'version': 2.0}
